@@ -52,6 +52,8 @@ h3 {
   margin: 5px 0 0;
 }
 
+
+/* ------------------------------------------------------- */
 /* Progress */
 .progress-container {
   background: #fff;
@@ -78,6 +80,8 @@ h3 {
   justify-content: space-between;
 }
 
+
+/* ------------------------------------------------------- */
 /* Controls */
 .player-controls {
   position: relative;
@@ -90,10 +94,13 @@ h3 {
   font-size: 30px;
   color: rgb(129, 129, 129);
   margin-right: 30px;
-
+  cursor: pointer;
+  user-select: none;
 }
 
-
+.fas:hover {
+  filter: brightness(80%);
+}
 
 .main-button {
   font-size: 40px;
@@ -101,6 +108,8 @@ h3 {
   top: 3px;
 }
 
+
+/* ------------------------------------------------------- */
 /* Media Query: iPhone (Vertical) */
 @media screen and (max-width: 376px) {
   .player-container{
