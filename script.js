@@ -215,6 +215,8 @@ function setVolume(evt){
 
 outsideVol.addEventListener('click', setVolume)
 
+
+// Mute and unMute Toggle
 volBtn.addEventListener('click', ()=> {
     if(volBtn.classList.contains('fa-volume-up') ){
         volBtn.classList.replace('fa-volume-up', 'fa-volume-mute')
@@ -227,7 +229,6 @@ volBtn.addEventListener('click', ()=> {
         music.volume = volume
         insideVol.style.height = `${volumePercent}%`
     }
-        
 })
 
 
