@@ -13,6 +13,8 @@ const prevBtn = document.getElementById('prev')
 const playBtn = document.getElementById('play')
 const nextBtn = document.getElementById('next')
 
+const vol = document.getElementById('vol')
+
 
 //Music
 const songs = [
@@ -152,3 +154,15 @@ nextBtn.addEventListener('click', nextSong)
 music.addEventListener('endeed', nextSong)
 music.addEventListener('timeupdate', updateProgressBar) //audio and video Event Listener
 progressContainer.addEventListener('click', setProgressBar)
+
+
+
+// Add Volume
+music.volume = vol.value // Set default volume
+
+function updateVolume(evt){
+    console.log(this.value)
+    music.volume = this.value
+}
+
+vol.addEventListener('input', updateVolume)
