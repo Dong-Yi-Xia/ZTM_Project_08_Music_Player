@@ -170,9 +170,9 @@ progressContainer.addEventListener('click', setProgressBar)
 
 
 // Add Volume
-let volume = '0.3'
-let volumePercent = 70
-music.volume = vol.value // Set default volume, 0.3
+let volume = '0.3' // Set default volume
+let volumePercent = 70 // Set default volume bar
+music.volume = vol.value // Set default volume, 0.3 from input value or music.volume = volume
 
 
 // Slider Volume Bar
