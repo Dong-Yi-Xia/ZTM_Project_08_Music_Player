@@ -14,7 +14,9 @@ const playBtn = document.getElementById('play')
 const nextBtn = document.getElementById('next')
 
 const vol = document.getElementById('vol')
-
+const outsideVol = document.querySelector('.outside-vol')
+const insideVol = document.querySelector('.inside-vol')
+const volBtn = document.getElementById('volBtn')
 
 //Music
 const songs = [
@@ -44,6 +46,7 @@ const songs = [
 // Check if playing
 let isPlaying = false
 
+
 // Play 
 function playSong(){
     isPlaying = true
@@ -51,6 +54,7 @@ function playSong(){
     playBtn.setAttribute('title', 'Pause')
     music.play()  //audio and video methods
 }
+
 
 // Pause 
 function pauseSong(){
@@ -60,11 +64,11 @@ function pauseSong(){
     music.pause() //audio and video methods
 }
 
+
 // Play or Pause Event Listener
 playBtn.addEventListener('click', () => { 
     isPlaying ? pauseSong() : playSong()
 })
-
 
 
 //Update the DOM
@@ -74,9 +78,6 @@ function loadSong(song){
     music.src = `music/${song.name}.mp3`
     image.src = `img/${song.name}.jpg`
 }
-
-//Current Song
-let songIndex = 0
 
 
 //Previous Song
@@ -89,6 +90,7 @@ function prevSong(){
     playSong()
 }
 
+
 //Next Song
 function nextSong(){
     songIndex++
@@ -99,8 +101,20 @@ function nextSong(){
     playSong()
 }
 
+
+//Current Song
+let songIndex = 0
+
+
 // On Load - Select First Song
 loadSong(songs[songIndex])
+music.addEventListener('loadeddata', (evt)=> {
+    let {duration} = music
+    const durationMinutes = Math.floor( duration / 60)
+    let durationSeconds = Math.floor( duration % 60)
+    durationEl.textContent = `${durationMinutes}:${durationSeconds}`
+})
+
 
 
 // Update Progress Bar and Time
@@ -117,7 +131,6 @@ function updateProgressBar(evt){
         if(durationSeconds < 10){
             durationSeconds = `0${durationSeconds}`
         }
-     
         // Delay switching duration Element to avoid NaN
         if(durationSeconds){
             durationEl.textContent = `${durationMinutes}:${durationSeconds}`
@@ -133,15 +146,14 @@ function updateProgressBar(evt){
     }
 }
 
-// Set Progress Bar
+// Set Progress Bar current play time on click
 function setProgressBar(evt){
     // evt.srcElement points to the current element, can use THIS to point to itself
-    const width = this.clientWidth
-    const clickX = evt.offsetX
+    const width = this.clientWidth //Max width 
+    const clickX = evt.offsetX  // current width out of max width
     const {duration} = music  // music === evt.srcElement 
-    console.log(duration)
-    console.log(clickX/width)
-    console.log( (clickX/width) * duration )
+    // console.log(music.duration)
+    // Find music current time = current % of total duration
     music.currentTime = (clickX/width) * duration  //audio and video Property
 
 }
@@ -158,11 +170,64 @@ progressContainer.addEventListener('click', setProgressBar)
 
 
 // Add Volume
-music.volume = vol.value // Set default volume
+let volume = '0.3'
+let volumePercent = 70
+music.volume = vol.value // Set default volume, 0.3
 
+
+// Slider Volume Bar
 function updateVolume(evt){
     console.log(this.value)
+    volume = this.value
     music.volume = this.value
+
+    const currentVolPercent = 100 - (this.value * 100)
+    insideVol.style.height = `${currentVolPercent}%`
 }
 
 vol.addEventListener('input', updateVolume)
+
+
+// Side Volume Bar
+function setVolume(evt){
+    const height = this.clientHeight
+    const clickY = evt.offsetY /* height goes from top down */ 
+    const heightFromBottom = height - clickY 
+    let currentVol = (heightFromBottom / height).toFixed(1) /* 0.0 - 1.0*/ 
+    music.volume = currentVol
+    volume = currentVol
+
+    // console.log(currentVol)
+    const currentVolPercent = 100 - (currentVol * 100)
+    volumePercent = currentVolPercent
+    // console.log(currentVolPercent)
+    insideVol.style.height = `${currentVolPercent}%`
+
+    if(currentVol === '0.0'){
+        volBtn.classList.replace('fa-volume-up', 'fa-volume-mute')
+    } else{
+        volBtn.classList.replace('fa-volume-mute', 'fa-volume-up')
+    }
+
+    // Update the slider Volume simultaneously
+    vol.value = currentVol
+}
+
+outsideVol.addEventListener('click', setVolume)
+
+volBtn.addEventListener('click', ()=> {
+    if(volBtn.classList.contains('fa-volume-up') ){
+        volBtn.classList.replace('fa-volume-up', 'fa-volume-mute')
+        vol.value = 0.0
+        music.volume = 0.0
+        insideVol.style.height = `100%`
+    } else {
+        volBtn.classList.replace('fa-volume-mute', 'fa-volume-up')
+        vol.value = volume
+        music.volume = volume
+        insideVol.style.height = `${volumePercent}%`
+    }
+        
+})
+
+

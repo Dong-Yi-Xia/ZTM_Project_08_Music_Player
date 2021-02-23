@@ -16,7 +16,7 @@ body {
 }
 
 .player-container{
-  height: 500px;
+  height: 510px;
   width: 400px;
   background-color: #a7a9aa;
   border-radius: 20px;
@@ -69,7 +69,7 @@ h3 {
   border-radius: 5px;
   height: 100%;
   /* change this to show progress */
-  width: 66%;
+  width: 0%;
   transition: width 0.1s linear;
 }
 
@@ -108,6 +108,41 @@ h3 {
   top: 3px;
 }
 
+/* ------------------------------------------------------- */
+/* Volume */
+.volume-container{
+  padding-top: 12px;
+}
+
+/* side Volume */
+.vol-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 15px;
+  width: 50px;
+}
+
+.outside-vol {
+  width: 10px;
+  height: 300px;
+  background-color: rgb(0, 92, 230);
+  margin-bottom: 10px;
+}
+
+.inside-vol {
+  width: 100%;
+  height: 70%; /* height goes from top down. or 30% from the bottom*/
+  background-color: rgb(255, 255, 255);
+  border-bottom: 10px solid red;
+}
+
+.fa-volume-up, .fa-volume-mute {
+  margin-right: 0;
+}
+
+
 
 /* ------------------------------------------------------- */
 /* Media Query: iPhone (Vertical) */
@@ -133,3 +168,6 @@ h3 {
     left: 100px;
   }
 }
+
+
+
